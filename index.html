@@ -15,7 +15,7 @@
             line-height: 40px;
             font-size: 20px;
             text-align: center;
-            margin-right: 20px;
+            margin-left: 20px;
         }
     </style>
 </head>
@@ -35,13 +35,46 @@
             const value = spliceArray[0]; // 배열에 들어 있는 값을 꺼내어
             shuffle.push(value); // shuffle 배열에 넣기
         };
-        console.log(shuffle)
         const winBalls = shuffle
-        .slice(0, 6)
-        .sort((a, b) => a - b);
-        console.log(shuffle)
+            .slice(0, 6)
+            .sort((a, b) => a - b);
         const bonus = shuffle[6];
-        console.log(winBalls, bonus);
+
+        const $result = document.querySelector('#result');
+        const $bonus = document.querySelector('#bonus');
+
+        function colorize(ballNumbers, $target) {
+            if (ballNumbers < 10) {
+                $target.style.backgroundColor = 'red';
+                $target.style.color = 'white';
+            } else if (ballNumbers < 20) {
+                $target.style.backgroundColor = 'orange';
+            } else if (ballNumbers < 30) {
+                $target.style.backgroundColor = 'yellow';
+            } else if (ballNumbers < 40) {
+                $target.style.backgroundColor = 'blue';
+                $target.style.color = 'white';
+            } else {
+                $target.style.backgroundColor = 'green';
+                $target.style.color = 'white';
+            }
+        }
+        const showball = (ballNumbers, $target) => {
+            const $ball = document.createElement('div');
+            $ball.className = 'ball';
+            colorize(ballNumbers, $target);
+            $ball.textContent = ballNumbers;
+            $target.appendChild($ball);
+        }
+
+        for (let i = 0; i < winBalls.length; i++) { // winballs 순서대로 출력하기
+            setTimeout(() => {
+                showball(winBalls[i], $result)
+            }, (i + 1) * 1000);
+        }
+        setTimeout(() => {
+            showball(bonus, $bonus);
+        }, 7000);
     </script>
 </body>
 
